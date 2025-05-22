@@ -33,7 +33,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead"> <!-- Kan vara ItemEdit, spelar mindre roll här -->
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://localhost/placeholderform.html"/> <!-- En dummy-URL, behöver inte existera -->
+        <SourceLocation DefaultValue="https://signal-5.github.io/support.html"/> <!-- En dummy-URL, behöver inte existera -->
         <RequestedHeight>100</RequestedHeight> <!-- Ett dummy-värde -->
       </DesktopSettings>
     </Form>
