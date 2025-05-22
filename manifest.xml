@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailapp="http://schemas.microsoft.com/office/mailappversionoverrides"
+           xsi:type="MailApp">
+
+  <Id>55d4ab52-e172-4fe8-a3a2-9ca590c4abc0</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Ian Vitek</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="External Recipient Warning"/>
+  <Description DefaultValue="Warns when external recipients are added and removes warning if none are present."/>
+  <IconUrl DefaultValue="https://signal-5.github.io/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://signal-5.github.io/icon-128.png"/>
+  <SupportUrl DefaultValue="https://signal-5.github.io/support.html"/>
+
+  <AppDomains>
+    <AppDomain>https://signal-5.github.io</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="Mailbox" MinVersion="1.5"/>
+    </Sets>
+  </Requirements>
+
+  <!-- Minimalt FormSettings-block för att tillfredsställa valideraren -->
+  <FormSettings>
+    <Form xsi:type="ItemRead"> <!-- Kan vara ItemEdit, spelar mindre roll här -->
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://localhost/placeholderform.html"/> <!-- En dummy-URL, behöver inte existera -->
+        <RequestedHeight>100</RequestedHeight> <!-- Ett dummy-värde -->
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteItem</Permissions>
+  
+  <!-- Minimalt Rule-element, eftersom valideraren tidigare förväntade sig detta efter Permissions -->
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  </Rule>
+
+  <!-- Korrekt strukturerad VersionOverrides-sektion -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.1"> 
+        <bt:Set Name="Mailbox" MinVersion="1.1"/>
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <!-- Ingen DesktopFormFactor här för V1.0, detta är tillåtet och föredraget -->
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Urls></bt:Urls>
+      <bt:ShortStrings></bt:ShortStrings>
+      <bt:LongStrings></bt:LongStrings>
+    </Resources>
+
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.5">
+          <bt:Set Name="Mailbox" MinVersion="1.5"/>
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <FunctionFile resid="FunctionFile.Url"/>
+            <ExtensionPoint xsi:type="Events">
+              <Event Type="RecipientsChanged" FunctionName="onRecipientsChangedHandler" FunctionExecution="asynchronous"/>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Urls>
+          <bt:Url id="FunctionFile.Url" DefaultValue="https://signal-5.github.io/functionfile.html"/>
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="displayName" DefaultValue="External Warning"/>
+          <bt:String id="tooltip" DefaultValue="Checks for external recipients."/>
+          <bt:String id="notifExtRecipEn" DefaultValue="One or more recipients are external."/>
+          <bt:String id="notifExtRecipSv" DefaultValue="En eller flera mottagare är externa."/>
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="description" DefaultValue="Automatically warns if external email addresses are added."/>
+        </bt:LongStrings>
+      </Resources>
+    </VersionOverrides>
+  </VersionOverrides>
+</OfficeApp>
